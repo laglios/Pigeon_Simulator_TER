@@ -16,11 +16,20 @@ if(toggle_fog == 1){
             for(var j=0;j<obj_MAP_controller.height;j++){ 
                 var inst = instance_position(i*obj_MAP_controller.blockSize+1,j*obj_MAP_controller.blockSize+1,Obj_Terrain)
                 if(pos == noone){
-                    if(collision_line(xx,yy,inst.x,inst.y,Obj_Terrain_Crete,false,true)){
-                        ds_grid_set(fog,i,j,1)        
+                    if(inst.object_index != Obj_Terrain_montagne 
+                        and (instance_position(xx,yy,Obj_Terrain_montagne)==noone)){
+                        if(collision_line(xx,yy,inst.x,inst.y,Obj_Terrain_Obstacle,false,true)){
+                            ds_grid_set(fog,i,j,1)        
+                        } else {
+                            ds_grid_set(fog,i,j,0)
+                        }//fin si terrain sur terrain
                     } else {
-                        ds_grid_set(fog,i,j,0)
-                    }//fin si terrain sur terrain
+                        if(collision_line(xx,yy,inst.x,inst.y,Obj_Terrain_Crete,false,true)){
+                            ds_grid_set(fog,i,j,1)        
+                        } else {
+                            ds_grid_set(fog,i,j,0)
+                        }//fin si terrain sur terrain
+                    }
                 }else if(inst.object_index != Obj_Terrain_Crete){
                     instance_deactivate_object(pos)
                     instance_deactivate_object(inst)
